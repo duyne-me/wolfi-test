@@ -1,6 +1,6 @@
 ---
 package:
-  name: apksearch
+  name: apkrane
   version: 0.0.1
   epoch: 1
   description: Search APK-based repositories
@@ -28,12 +28,11 @@ pipeline:
   - uses: go/build
     with:
       packages: .
-      output: apksearch
+      output: apkrane
 
   - uses: strip
 
 test:
   pipeline:
     - runs: |
-        apksearch --help
-        apksearch --version
+        apkrane --help
