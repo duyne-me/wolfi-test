@@ -30,12 +30,12 @@ jobs:
       packages: write
       attestations: write
     steps:
-      - id: renovate_version
-        uses: pozetroninc/github-action-get-latest-release@master
-        with:
-          repository: renovatebot/renovate/
-          excludes: prerelease, draft
-          token: ${{ secrets.GITHUB_TOKEN }}
+      # - id: renovate_version
+      #   uses: pozetroninc/github-action-get-latest-release@master
+      #   with:
+      #     repository: renovatebot/renovate/
+      #     excludes: prerelease, draft
+      #     token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -49,4 +49,11 @@ jobs:
           config: wolfi-test.yaml
           # Tag is the tag that will be published.
           # Required.
-          tag: ghcr.io/duyne-me/wolfi-test:latest ghcr.io/duyne-me/wolfi-test:${{ steps.renovate_version.outputs.release }}
+          tag: ghcr.io/duyne-me/wolfi-test:latest
+
+      # https://github.com/chainguard-images/actions/tree/main/apko-publish
+      - id: wolfi-apko-with-bash
+        uses: distroless/actions/apko-publish@main
+        with:
+          config: wolfi-apko-with-bash.yaml
+          tag: ghcr.io/kastl-ars/wolfi-apko-with-bash:latest
