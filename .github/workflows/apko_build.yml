@@ -23,20 +23,11 @@ env:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-    # Sets the permissions granted to the `GITHUB_TOKEN` for the actions in
-    # this job.
     permissions:
       contents: read
       packages: write
       attestations: write
     steps:
-      # - id: renovate_version
-      #   uses: pozetroninc/github-action-get-latest-release@master
-      #   with:
-      #     repository: renovatebot/renovate/
-      #     excludes: prerelease, draft
-      #     token: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -44,12 +35,18 @@ jobs:
       - id: wolfi-renovate-nodejs-bash-git-flux
         uses: distroless/actions/apko-publish@main
         with:
-          # Config is the configuration file to use for the image build.
-          # Optional, will use .apko.yaml without a defined one.
           config: wolfi-renovate-nodejs-bash-git-flux.yaml
-          # Tag is the tag that will be published.
-          # Required.
           tag: ghcr.io/duyne-me/wolfi-renovate-nodejs-bash-git-flux:latest
+
+  build-and-push-apko-with-bash:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       # https://github.com/chainguard-images/actions/tree/main/apko-publish
       - id: wolfi-apko-with-bash
