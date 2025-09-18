@@ -50,6 +50,7 @@ jobs:
         with:
           config: melange-image.yaml
           tag: ghcr.io/duyne-me/wolfi-melange:latest
+          platforms: linux/amd64,linux/arm64
 
       # Set image variables for reuse
       - name: Set image metadata
