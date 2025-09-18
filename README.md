@@ -19,5 +19,12 @@ podman run \
     --rm \
     --pull=always \
     ghcr.io/duyne-me/wolfi-renovate-nodejs-bash-git-flux:latest --version
+```
 
+Test wolfi-apko-with-bash:
+```
+podman run \
+    --rm \
+    --pull=always \
+    ghcr.io/kastl-ars/wolfi-apko-with-bash:latest version
 ```
