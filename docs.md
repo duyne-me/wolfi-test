@@ -19,3 +19,10 @@
     - Metadata such as entrypoint, user, environment variables, etc.
 
 Apko builds a container image containing a minimal OS `(Alpine/Wolfi)` plus your APK package.
+
+## Melange and Apko
+
+| Task                       | Tool      | Result                                      |
+|----------------------------|-----------|---------------------------------------------|
+| Compile and package app    | Melange   | Creates an `.apk` file containing your app  |
+| Create OCI container image | Apko      | Creates a container image from the `.apk`   |

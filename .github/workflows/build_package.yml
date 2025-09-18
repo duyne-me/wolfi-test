@@ -24,9 +24,11 @@ jobs:
       packages: write
       attestations: write
     steps:
-
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Setup cosign
+        uses: sigstore/cosign-installer@v3.4.0
 
       - name: Create melange.rsa from Github secret
         shell: bash
@@ -50,3 +52,7 @@ jobs:
         with:
           config: melange-image.yaml
           tag: ghcr.io/duyne-me/wolfi-melange:latest
+
+      - name: Sign image with cosign (keyless)
+        run: |
+          cosign sign ghcr.io/duyne-me/wolfi-melange:latest
