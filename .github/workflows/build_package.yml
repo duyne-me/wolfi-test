@@ -57,8 +57,8 @@ jobs:
         id: vars
         run: |
           echo "image=ghcr.io/duyne-me/wolfi-melange:latest" >> $GITHUB_OUTPUT
-          echo "registry=${{ env.REGISTRY }}" >> $GITHUB_OUTPUT
-          echo "repository=${{ github.repository }}" >> $GITHUB_OUTPUT
+          echo "registry=ghcr.io" >> $GITHUB_OUTPUT
+          echo "repository=duyne-me/wolfi-melange" >> $GITHUB_OUTPUT
 
       - uses: imjasonh/setup-crane@31b88efe9de28ae0ffa220711af4b60be9435f6e # v0.4
 
