@@ -1,0 +1,52 @@
+---
+
+name: Create and publish a container image
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+  schedule:
+    # run every Monday at 01:30
+    - cron: '30 1 * * 1'
+
+# Defines two custom environment variables for the workflow. These are used for
+# the Container registry domain, and a name for the Docker image that this
+# workflow builds.
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+# There is a single job in this workflow. It's configured to run on the latest
+# available version of Ubuntu.
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    # Sets the permissions granted to the `GITHUB_TOKEN` for the actions in
+    # this job.
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+    steps:
+      - id: renovate_version
+        uses: pozetroninc/github-action-get-latest-release@master
+        with:
+          repository: renovatebot/renovate/
+          excludes: prerelease, draft
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # https://github.com/chainguard-images/actions/tree/main/apko-publish
+      - id: wolfi-test
+        uses: distroless/actions/apko-publish@main
+        with:
+          # Config is the configuration file to use for the image build.
+          # Optional, will use .apko.yaml without a defined one.
+          config: wolfi-test.yaml
+          # Tag is the tag that will be published.
+          # Required.
+          tag: ghcr.io/kastl-ars/wolfi-test:latest ghcr.io/duyne-me/wolfi-test:${{ steps.renovate_version.outputs.release }}
