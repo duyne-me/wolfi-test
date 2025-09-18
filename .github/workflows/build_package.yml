@@ -1,0 +1,52 @@
+---
+
+name: Build a package with Melange
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+  schedule:
+    # run every Monday at 01:30
+    - cron: '30 1 * * 1'
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-apk-image:
+    runs-on: ubuntu-latest
+    environment: melange
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create melange.rsa from Github secret
+        shell: bash
+        env:
+          MELANGE_KEY: ${{ secrets.MELANGE_KEY }}
+        run: echo "${MELANGE_KEY}" > melange.rsa
+
+      - name: Setup melange
+        uses: chainguard-dev/actions/setup-melange@main
+
+      - name: Build package with Melange
+        uses: chainguard-dev/actions/melange-build-pkg@main
+        with:
+          config: apkrane-package.yml
+          archs: x86_64
+          sign-with-key: true
+
+      # https://github.com/chainguard-images/actions/tree/main/apko-publish
+      - name: Build image with Apko
+        uses: chainguard-images/actions/apko-publish@main
+        with:
+          config: apkrane-image.yaml
+          tag: ghcr.io/duyne-me/wolfi-apkrane:latest

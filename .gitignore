@@ -1,0 +1,19 @@
+# Ignore melange private key
+melange.rsa
+
+# Node modules
+node_modules/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Python cache
+__pycache__/
+*.pyc
+
+# VSCode settings
+.vscode/
