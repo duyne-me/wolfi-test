@@ -1,6 +1,6 @@
 ---
 package:
-  name: apkrane
+  name: apksearch
   version: 0.0.1
   epoch: 1
   description: Search APK-based repositories
@@ -23,16 +23,17 @@ pipeline:
     with:
       repository: https://github.com/jonjohnsonjr/apkrane
       branch: main
-      expected-commit: d5c3cdcb37e83db7a2148dfdc82b4295cc8dc972
+      expected-commit: a550bb5dbf7d6253677ed6347b9b470f5a3f8840
 
   - uses: go/build
     with:
       packages: .
-      output: apkrane
+      output: apksearch
 
   - uses: strip
 
 test:
   pipeline:
     - runs: |
-        apkrane --help
+        apksearch --help
+        apksearch --version
