@@ -49,4 +49,4 @@ jobs:
           config: wolfi-test.yaml
           # Tag is the tag that will be published.
           # Required.
-          tag: ghcr.io/kastl-ars/wolfi-test:latest ghcr.io/duyne-me/wolfi-test:${{ steps.renovate_version.outputs.release }}
+          tag: ghcr.io/duyne-me/wolfi-test:latest ghcr.io/duyne-me/wolfi-test:${{ steps.renovate_version.outputs.release }}
