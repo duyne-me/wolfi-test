@@ -13,7 +13,11 @@ adapted the
 file used to build that image and added `bash`, `git`, `flux` and `renovate`.
 
 ## Test via Podman
+The image can be tested with [Podman](https://podman.io/) and will output the version:
+```
 podman run \
     --rm \
     --pull=always \
     ghcr.io/duyne-me/wolfi-renovate-nodejs-bash-git-flux:latest --version
+
+```
