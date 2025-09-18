@@ -41,15 +41,15 @@ jobs:
         uses: actions/checkout@v4
 
       # https://github.com/chainguard-images/actions/tree/main/apko-publish
-      - id: wolfi-test
+      - id: wolfi-renovate-nodejs-bash-git-flux
         uses: distroless/actions/apko-publish@main
         with:
           # Config is the configuration file to use for the image build.
           # Optional, will use .apko.yaml without a defined one.
-          config: wolfi-test.yaml
+          config: wolfi-renovate-nodejs-bash-git-flux.yaml
           # Tag is the tag that will be published.
           # Required.
-          tag: ghcr.io/duyne-me/wolfi-test:latest
+          tag: ghcr.io/duyne-me/wolfi-renovate-nodejs-bash-git-flux:latest
 
       # https://github.com/chainguard-images/actions/tree/main/apko-publish
       - id: wolfi-apko-with-bash
