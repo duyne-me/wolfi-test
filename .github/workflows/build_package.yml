@@ -56,9 +56,12 @@ jobs:
 
       - name: Install crane
         run: |
-          curl -sSL https://github.com/google/go-containerregistry/releases/latest/download/crane-linux-amd64 -o /usr/local/bin/crane
-          chmod +x /usr/local/bin/crane
-
+          mkdir -p /usr/local/bin
+          curl -L -o crane.tar.gz https://github.com/google/go-containerregistry/releases/latest/download/crane-linux-amd64.tar.gz
+          tar -xzf crane.tar.gz crane
+          chmod +x crane
+          mv crane /usr/local/bin/crane
+          
       - name: Get image digest
         id: digest
         run: |

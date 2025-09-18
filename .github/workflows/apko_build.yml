@@ -21,7 +21,7 @@ env:
 # There is a single job in this workflow. It's configured to run on the latest
 # available version of Ubuntu.
 jobs:
-  build-and-push:
+  wolfi-renovate-nodejs-bash-git-flux:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -38,7 +38,7 @@ jobs:
           config: wolfi-renovate-nodejs-bash-git-flux.yaml
           tag: ghcr.io/duyne-me/wolfi-renovate-nodejs-bash-git-flux:latest
 
-  build-and-push-apko-with-bash:
+  wolfi-apko-with-bash:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -55,7 +55,7 @@ jobs:
           config: wolfi-apko-with-bash.yaml
           tag: ghcr.io/duyne-me/wolfi-apko-with-bash:latest
 
-  bwolfi-renovate-tini-git-flux:
+  wolfi-renovate-tini-git-flux:
     runs-on: ubuntu-latest
     permissions:
       contents: read
