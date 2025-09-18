@@ -53,4 +53,22 @@ jobs:
         uses: distroless/actions/apko-publish@main
         with:
           config: wolfi-apko-with-bash.yaml
-          tag: ghcr.io/kastl-ars/wolfi-apko-with-bash:latest
+          tag: ghcr.io/duyne-me/wolfi-apko-with-bash:latest
+
+  bwolfi-renovate-tini-git-flux:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      # https://github.com/chainguard-images/actions/tree/main/apko-publish
+      - id: wolfi-renovate-tini-git-flux
+        uses: distroless/actions/apko-publish@main
+        with:
+          config: wolfi-docker-dind.yaml
+          # Tag is the tag that will be published.
+          # Required.
+          tag: ghcr.io/duyne-me/wolfi-docker-dind:latest
