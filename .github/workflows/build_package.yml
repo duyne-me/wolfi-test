@@ -40,7 +40,7 @@ jobs:
       - name: Build package with Melange
         uses: chainguard-dev/actions/melange-build-pkg@main
         with:
-          config: apkrane-package.yml
+          config: melange-package.yml
           archs: x86_64
           sign-with-key: true
 
@@ -48,5 +48,5 @@ jobs:
       - name: Build image with Apko
         uses: chainguard-images/actions/apko-publish@main
         with:
-          config: apkrane-image.yaml
-          tag: ghcr.io/duyne-me/wolfi-apkrane:latest
+          config: melange-image.yaml
+          tag: ghcr.io/duyne-me/wolfi-melange:latest
