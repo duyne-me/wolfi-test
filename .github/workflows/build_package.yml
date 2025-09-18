@@ -54,6 +54,20 @@ jobs:
           config: melange-image.yaml
           tag: ghcr.io/duyne-me/wolfi-melange:latest
 
-      - name: Sign image with cosign (keyless)
+      - name: Install crane
         run: |
-          cosign sign ghcr.io/duyne-me/wolfi-melange:latest
+          curl -sSL https://github.com/google/go-containerregistry/releases/latest/download/crane-linux-amd64 -o /usr/local/bin/crane
+          chmod +x /usr/local/bin/crane
+
+      - name: Get image digest
+        id: digest
+        run: |
+          DIGEST=$(crane digest ghcr.io/duyne-me/wolfi-melange:latest)
+          echo "digest=${DIGEST}" >> "$GITHUB_OUTPUT"
+
+      - name: Sign image with cosign (keyless)
+        env:
+          COSIGN_EXPERIMENTAL: 1
+          COSIGN_YES: true
+        run: |
+          cosign sign ghcr.io/duyne-me/wolfi-melange@${{ steps.digest.outputs.digest }}
