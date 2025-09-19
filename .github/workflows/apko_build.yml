@@ -72,3 +72,20 @@ jobs:
           # Tag is the tag that will be published.
           # Required.
           tag: ghcr.io/duyne-me/wolfi-docker-dind:latest
+
+  wolfi-bash-aws-cli:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - id: wolfi-bash-aws-cli
+        uses: distroless/actions/apko-publish@main
+        with:
+          config: wolfi-bash-aws-cli.yaml
+          # Tag is the tag that will be published.
+          # Required.
+          tag: ghcr.io/duyne-me/wolfi-bash-aws-cli:latest
