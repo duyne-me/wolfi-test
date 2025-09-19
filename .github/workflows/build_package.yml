@@ -31,8 +31,8 @@ jobs:
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@v6
         with:
-          gpg_private_key: ${{ secrets.VM_BOT_GPG_PRIVATE_KEY }}
-          passphrase: ${{ secrets.VM_BOT_PASSPHRASE }}
+          gpg_private_key: ${{ secrets.BOT_GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.BOT_PASSPHRASE }}
           git_user_signingkey: true
           git_commit_gpgsign: true
           
