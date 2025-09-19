@@ -18,9 +18,9 @@ environment:
   SSL_CERT_FILE: /etc/ssl/certs/ca-certificates.crt
 
 entrypoint:
-  command: /usr/bin/aws --version
+  command: /usr/bin/aws
 
-cmd: --help
+cmd: --version
 
 paths:
   - path: /bin/sh
