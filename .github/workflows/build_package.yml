@@ -28,6 +28,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
 
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          gpg_private_key: ${{ secrets.VM_BOT_GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.VM_BOT_PASSPHRASE }}
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+          
       - name: Setup cosign
         uses: sigstore/cosign-installer@v3.10.0
 

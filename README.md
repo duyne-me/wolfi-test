@@ -37,3 +37,8 @@ podman run \
     --pull=always \
     ghcr.io/duyne-me/wolfi-melange:latest 
 ```
+
+podman run \
+    --rm \
+    --pull=always \
+    ghcr.io/duyne-me/wolfi-bash-aws-cli:latest
