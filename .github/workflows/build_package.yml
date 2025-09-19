@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    tags:
+      - 'v*'
   workflow_dispatch:
   schedule:
     - cron: '30 1 * * 1' # Every Monday at 01:30
@@ -45,20 +47,40 @@ jobs:
           archs: x86_64,arm64
           sign-with-key: true
 
+      # Simple tag generation
+      - name: Generate image tag
+        id: tag
+        run: |
+          REGISTRY="${{ env.REGISTRY }}"
+          REPO="${{ env.IMAGE_NAME }}"
+          
+          if [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            # Use version from git tag
+            VERSION=${GITHUB_REF#refs/tags/}
+            echo "image-tag=${REGISTRY}/${REPO}:${VERSION}" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.event_name }}" == "schedule" ]]; then
+            # Use date for scheduled builds
+            DATE=$(date +%Y%m%d)
+            echo "image-tag=${REGISTRY}/${REPO}:nightly-${DATE}" >> $GITHUB_OUTPUT
+          else
+            # Use latest for main branch and manual triggers
+            echo "image-tag=${REGISTRY}/${REPO}:latest" >> $GITHUB_OUTPUT
+          fi
+
       - name: Build image with Apko
         uses: chainguard-images/actions/apko-publish@main
         with:
           config: melange-image.yaml
-          tag: ghcr.io/duyne-me/wolfi-melange:latest
+          tag: ${{ steps.tag.outputs.image-tag }}
           platforms: linux/amd64,linux/arm64
 
       # Set image variables for reuse
       - name: Set image metadata
         id: vars
         run: |
-          echo "image=ghcr.io/duyne-me/wolfi-melange:latest" >> $GITHUB_OUTPUT
-          echo "registry=ghcr.io" >> $GITHUB_OUTPUT
-          echo "repository=duyne-me/wolfi-melange" >> $GITHUB_OUTPUT
+          echo "image=${{ steps.tag.outputs.image-tag }}" >> $GITHUB_OUTPUT
+          echo "registry=${{ env.REGISTRY }}" >> $GITHUB_OUTPUT
+          echo "repository=${{ env.IMAGE_NAME }}" >> $GITHUB_OUTPUT
 
       - uses: imjasonh/setup-crane@31b88efe9de28ae0ffa220711af4b60be9435f6e # v0.4
 
