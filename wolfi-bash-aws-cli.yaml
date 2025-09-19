@@ -12,6 +12,8 @@ contents:
     - gawk
     - grep
     - aws-cli
+    - vim
+    - 
 
 environment:
   PATH: /usr/sbin:/sbin:/usr/bin:/bin
