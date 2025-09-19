@@ -6,18 +6,34 @@ Container image containing with based on `WolfiOS` and built using the
 GitHub Action.
 
 ## Test via Podman
-The image can be tested with [Podman](https://podman.io/) and will output the version:
+Install `Podman`
+```sh
+sudo apt update
+sudo apt install -y podman
 ```
+The image can be tested with [Podman](https://podman.io/) and will output the version:
+
+```sh
 podman run \
     --rm \
     --pull=always \
     ghcr.io/duyne-me/wolfi-renovate-nodejs-bash-git-flux:latest --version
+
+# change --entrypoint=/usr/local/bin/flux
 ```
 
 Test wolfi-apko-with-bash:
-```
+```sh
 podman run \
     --rm \
     --pull=always \
-    ghcr.io/kastl-ars/wolfi-apko-with-bash:latest version
+    ghcr.io/duyne-me/wolfi-apko-with-bash:latest version
+```
+
+Test image build with apko and malange:
+```sh
+podman run \
+    --rm \
+    --pull=always \
+    ghcr.io/duyne-me/wolfi-melange:latest 
 ```
