@@ -67,8 +67,28 @@ docker run --privileged -v "$PWD":/work cgr.dev/chainguard/melange build example
 If you want to sign your `apks`, create a signing key with the `melange keygen` command:
 
 ```sh
+# gen via docker
+docker run --rm -v $PWD:/work cgr.dev/chainguard/melange keygen
+
+# gen via command local
 melange keygen
 generating keypair with a 4096 bit prime, please wait...
 wrote private key to melange.rsa
 wrote public key to melange.rsa.pub
 ```
+
+
+```
+docker run --rm --privileged \
+  -v "$PWD":/work \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v /tmp:/tmp \
+  cgr.dev/chainguard/melange \
+  --runner docker \
+  --arch x86_64 \
+  --signing-key melange.rsa \
+  build session-manager-plugin.melange.yaml
+
+```
+
+melange build session-manager-plugin.melange.yaml --arch x86_64 --signing-key melange.rsa
