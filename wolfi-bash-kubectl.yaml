@@ -9,17 +9,14 @@ contents:
     - bash
     - ca-certificates-bundle
     - coreutils
-    - gawk
-    - grep
-    - aws-cli
-    - vim
+    - kubectl
 
 environment:
   PATH: /usr/sbin:/sbin:/usr/bin:/bin
   SSL_CERT_FILE: /etc/ssl/certs/ca-certificates.crt
 
 entrypoint:
-  command: /usr/bin/aws
+  command: /usr/bin/kubectl
 
 cmd: --version
 

@@ -97,3 +97,26 @@ jobs:
           # Tag is the tag that will be published.
           # Required.
           tag: ghcr.io/duyne-me/wolfi-bash-aws-cli:latest
+
+  wolfi-bash-kubectl:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - id: wolfi-bash-kubectl
+        uses: distroless/actions/apko-publish@main
+        with:
+          config: wolfi-bash-kubectl.yaml
+          # Tag is the tag that will be published.
+          # Required.
+          tag: ghcr.io/duyne-me/wolfi-bash-kubectl:latest
+
+
+
+
+
+          
