@@ -18,7 +18,7 @@ environment:
 entrypoint:
   command: /usr/bin/kubectl
 
-cmd: --version
+cmd: ["version", "--client"]
 
 paths:
   - path: /bin/sh
