@@ -51,7 +51,7 @@ jobs:
       - name: Build package with Melange
         uses: chainguard-dev/actions/melange-build-pkg@main
         with:
-          config: melange-package.yml
+          config: packages/package-apkrane.yaml
           archs: x86_64,arm64
           sign-with-key: true
 
@@ -78,7 +78,7 @@ jobs:
       - name: Build image with Apko
         uses: chainguard-images/actions/apko-publish@main
         with:
-          config: melange-image.yaml
+          config: packages/melange-image.yaml
           tag: ${{ steps.tag.outputs.image-tag }}
           platforms: linux/amd64,linux/arm64
 

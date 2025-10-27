@@ -1,0 +1,39 @@
+---
+package:
+  name: apkrane
+  version: 0.0.1
+  epoch: 1
+  description: Search APK-based repositories
+  copyright:
+    - license: Apache-2.0
+
+environment:
+  contents:
+    repositories:
+      - https://packages.wolfi.dev/os
+    keyring:
+      - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+    packages:
+      - go
+      - busybox
+      - ca-certificates-bundle
+
+pipeline:
+  - uses: git-checkout
+    with:
+      repository: https://github.com/jonjohnsonjr/apkrane
+      branch: main
+      expected-commit: a550bb5dbf7d6253677ed6347b9b470f5a3f8840
+
+  - uses: go/build
+    with:
+      packages: .
+      output: apkrane
+
+  - uses: strip
+
+test:
+  pipeline:
+    - runs: |
+        apkrane --help
+

@@ -1,0 +1,110 @@
+---
+name: Build and publish container images
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+  schedule:
+    # run every Monday at 01:30
+    - cron: '30 1 * * 1'
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-renovate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          gpg_private_key: ${{ secrets.BOT_GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.BOT_PASSPHRASE }}
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+
+      - name: Build renovate image
+        id: build-renovate
+        uses: distroless/actions/apko-publish@main
+        with:
+          config: images/image-renovate.yaml
+          tag: ghcr.io/duyne-me/renovate:latest
+
+  build-apko:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Build apko image
+        id: build-apko
+        uses: distroless/actions/apko-publish@main
+        with:
+          config: images/image-apko.yaml
+          tag: ghcr.io/duyne-me/apko:latest
+
+  build-docker-dind:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Build docker-dind image
+        id: build-docker-dind
+        uses: distroless/actions/apko-publish@main
+        with:
+          config: images/image-docker-dind.yaml
+          tag: ghcr.io/duyne-me/docker-dind:latest
+
+  build-aws-cli:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Build aws-cli image
+        id: build-aws-cli
+        uses: distroless/actions/apko-publish@main
+        with:
+          config: images/image-aws-cli.yaml
+          tag: ghcr.io/duyne-me/aws-cli:latest
+
+  build-kubectl:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Build kubectl image
+        id: build-kubectl
+        uses: distroless/actions/apko-publish@main
+        with:
+          config: images/image-kubectl.yaml
+          tag: ghcr.io/duyne-me/kubectl:latest
+
