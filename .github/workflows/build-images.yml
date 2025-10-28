@@ -108,3 +108,20 @@ jobs:
           config: images/image-kubectl.yaml
           tag: ghcr.io/duyne-me/kubectl:latest
 
+  build-k8s-tools:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Build k8s-tools image
+        id: build-k8s-tools
+        uses: distroless/actions/apko-publish@main
+        with:
+          config: images/image-k8s-tools.yaml
+          tag: ghcr.io/duyne-me/k8s-tools:latest
+
