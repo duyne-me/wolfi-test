@@ -2,15 +2,17 @@
 contents:
   repositories:
     - https://packages.wolfi.dev/os
+    - '@local ./packages/'
   keyring:
     - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+    - melange.rsa.pub
   packages:
     - bash
     - ca-certificates-bundle
     - coreutils
     - yq
     - kustomize
-    - kubeconform
+    - kubeconform@local
 
 environment:
   PATH: /usr/sbin:/sbin:/usr/bin:/bin
