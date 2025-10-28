@@ -29,7 +29,8 @@ wolfi-test/
 │   ├── image-apko.yaml
 │   ├── image-docker-dind.yaml
 │   ├── image-aws-cli.yaml
-│   └── image-kubectl.yaml
+│   ├── image-kubectl.yaml
+│   └── image-k8s-tools.yaml
 ├── packages/              # APK package definitions
 │   ├── package-apkrane.yaml
 │   └── melange-image.yaml
@@ -47,6 +48,7 @@ wolfi-test/
 | **Docker-in-Docker** | Docker-in-Docker with Kubernetes tools | docker, kubectl, kind | `ghcr.io/duyne-me/docker-dind:latest` |
 | **AWS CLI** | AWS CLI with common utilities | aws-cli, bash, vim | `ghcr.io/duyne-me/aws-cli:latest` |
 | **kubectl** | Kubernetes CLI tool | kubectl, bash | `ghcr.io/duyne-me/kubectl:latest` |
+| **K8s Tools** | Kubernetes utilities (yq, kustomize, kubeconform) | yq, kustomize, kubeconform, bash | `ghcr.io/duyne-me/k8s-tools:latest` |
 
 ## Testing Images
 
@@ -99,6 +101,24 @@ podman run --rm --pull=always \
 ```bash
 podman run --rm --pull=always \
     ghcr.io/duyne-me/kubectl:latest version
+```
+
+### Test K8s Tools
+
+```bash
+# Test yq
+podman run --rm --pull=always \
+    ghcr.io/duyne-me/k8s-tools:latest --version
+
+# Test kustomize
+podman run --rm --pull=always \
+    --entrypoint=/usr/bin/kustomize \
+    ghcr.io/duyne-me/k8s-tools:latest version
+
+# Test kubeconform
+podman run --rm --pull=always \
+    --entrypoint=/usr/bin/kubeconform \
+    ghcr.io/duyne-me/k8s-tools:latest --version
 ```
 
 ## Development

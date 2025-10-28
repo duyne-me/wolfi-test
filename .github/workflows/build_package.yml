@@ -48,10 +48,17 @@ jobs:
       - name: Setup melange
         uses: chainguard-dev/actions/setup-melange@main
 
-      - name: Build package with Melange
+      - name: Build apkrane package with Melange
         uses: chainguard-dev/actions/melange-build-pkg@main
         with:
           config: packages/package-apkrane.yaml
+          archs: x86_64,arm64
+          sign-with-key: true
+
+      - name: Build kubeconform package with Melange
+        uses: chainguard-dev/actions/melange-build-pkg@main
+        with:
+          config: packages/package-kubeconform.yaml
           archs: x86_64,arm64
           sign-with-key: true
 
