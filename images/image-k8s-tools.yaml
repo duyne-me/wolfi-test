@@ -19,7 +19,7 @@ environment:
   SSL_CERT_FILE: /etc/ssl/certs/ca-certificates.crt
 
 entrypoint:
-  command: /usr/bin/yq
+  command: /usr/bin/bash
 
 cmd: --version
 
