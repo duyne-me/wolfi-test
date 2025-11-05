@@ -11,6 +11,8 @@ contents:
     - ca-certificates-bundle
     - coreutils
     - yq
+    - curl
+    - tar
     - kustomize
     - kubeconform@local
 
@@ -43,3 +45,4 @@ accounts:
 archs:
   - amd64
   - arm64
+
