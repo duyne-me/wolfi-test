@@ -12,7 +12,7 @@ contents:
     - coreutils
     - yq
     - curl
-    - tar
+    - busybox
     - kustomize
     - kubeconform@local
 
@@ -45,4 +45,5 @@ accounts:
 archs:
   - amd64
   - arm64
+
 
