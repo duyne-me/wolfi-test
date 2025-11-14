@@ -87,7 +87,7 @@ jobs:
         uses: distroless/actions/apko-publish@main
         with:
           config: images/image-renovate.yaml
-          tag: ghcr.io/duyne-me/renovate:latest
+          tag: ghcr.io/duynhne/renovate:latest
 
   build-apko:
     runs-on: ubuntu-latest
@@ -104,7 +104,7 @@ jobs:
         uses: distroless/actions/apko-publish@main
         with:
           config: images/image-apko.yaml
-          tag: ghcr.io/duyne-me/apko:latest
+          tag: ghcr.io/duynhne/apko:latest
 
   build-docker-dind:
     runs-on: ubuntu-latest
@@ -121,7 +121,7 @@ jobs:
         uses: distroless/actions/apko-publish@main
         with:
           config: images/image-docker-dind.yaml
-          tag: ghcr.io/duyne-me/docker-dind:latest
+          tag: ghcr.io/duynhne/docker-dind:latest
 
   build-aws-cli:
     runs-on: ubuntu-latest
@@ -138,7 +138,7 @@ jobs:
         uses: distroless/actions/apko-publish@main
         with:
           config: images/image-aws-cli.yaml
-          tag: ghcr.io/duyne-me/aws-cli:latest
+          tag: ghcr.io/duynhne/aws-cli:latest
 
   build-kubectl:
     runs-on: ubuntu-latest
@@ -155,7 +155,7 @@ jobs:
         uses: distroless/actions/apko-publish@main
         with:
           config: images/image-kubectl.yaml
-          tag: ghcr.io/duyne-me/kubectl:latest
+          tag: ghcr.io/duynhne/kubectl:latest
 
   build-k8s-tools:
     runs-on: ubuntu-latest
@@ -179,5 +179,6 @@ jobs:
         uses: distroless/actions/apko-publish@main
         with:
           config: images/image-k8s-tools.yaml
-          tag: ghcr.io/duyne-me/k8s-tools:latest
+          tag: ghcr.io/duynhne/k8s-tools:latest
+
 
