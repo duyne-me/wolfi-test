@@ -133,12 +133,13 @@ podman run --rm --pull=always \
     ghcr.io/duyhenryer/flyway:latest --version
 
 # Test with database connection (example with PostgreSQL)
+# Use environment variables for sensitive data
 podman run --rm --pull=always \
-    -v $(pwd)/sql:/opt/flyway/11.8.2/sql \
+    -v $(pwd)/sql:/opt/flyway/sql \
+    -e FLYWAY_URL=jdbc:postgresql://host.docker.internal:5432/mydb \
+    -e FLYWAY_USER=postgres \
+    -e FLYWAY_PASSWORD=<YOUR_PASSWORD> \
     ghcr.io/duyhenryer/flyway:latest \
-    -url=jdbc:postgresql://host.docker.internal:5432/mydb \
-    -user=postgres \
-    -password=secret \
     info
 ```
 

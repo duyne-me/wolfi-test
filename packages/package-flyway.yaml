@@ -16,38 +16,39 @@ environment:
     packages:
       - busybox
       - ca-certificates-bundle
-      - wget
       - tar
       - openjdk-17-jre
 
 pipeline:
-  - name: Download and extract Flyway
+  - uses: fetch
+    with:
+      uri: https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/${{package.version}}/flyway-commandline-${{package.version}}.tar.gz
+      expected-sha256: e949d012420371c6999a38f32c6680455581c15f9ad1b4f4943f9a9415712e03
+
+  - name: Install Flyway
     runs: |
+      set -e
       FLYWAY_VERSION="${{package.version}}"
-      FLYWAY_HOME="/opt/flyway/${FLYWAY_VERSION}"
+      FLYWAY_VERSIONED_DIR="/opt/flyway-${FLYWAY_VERSION}"
       
-      # Download Flyway from Maven Central
-      wget --no-check-certificate \
-        "https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/${FLYWAY_VERSION}/flyway-commandline-${FLYWAY_VERSION}.tar.gz"
-      
-      # Create installation directory
-      mkdir -p "${{targets.destdir}}${FLYWAY_HOME}"
+      # Create versioned installation directory
+      mkdir -p "${{targets.destdir}}${FLYWAY_VERSIONED_DIR}"
       
       # Extract Flyway
       tar -xzf "flyway-commandline-${FLYWAY_VERSION}.tar.gz" \
-        -C "${{targets.destdir}}${FLYWAY_HOME}" \
+        -C "${{targets.destdir}}${FLYWAY_VERSIONED_DIR}" \
         --strip-components=1
       
       # Make flyway executable
-      chmod +x "${{targets.destdir}}${FLYWAY_HOME}/flyway"
+      chmod +x "${{targets.destdir}}${FLYWAY_VERSIONED_DIR}/flyway"
+      
+      # Create generic symlink for easier version management
+      ln -s "${FLYWAY_VERSIONED_DIR}" "${{targets.destdir}}/opt/flyway"
       
       # Create symlink for easy access
       mkdir -p "${{targets.destdir}}/usr/local/bin"
-      ln -s "${FLYWAY_HOME}/flyway" \
+      ln -s "/opt/flyway/flyway" \
         "${{targets.destdir}}/usr/local/bin/flyway"
-      
-      # Clean up downloaded archive
-      rm "flyway-commandline-${FLYWAY_VERSION}.tar.gz"
 
 test:
   pipeline:

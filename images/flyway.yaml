@@ -10,19 +10,20 @@ contents:
     - bash
     - ca-certificates-bundle
     - openjdk-17-jre
-    - wget
     - flyway@local
 
 environment:
   FLYWAY_VERSION: "11.8.2"
-  FLYWAY_HOME: "/opt/flyway/11.8.2"
-  FLYWAY_LOCATIONS: "filesystem:/opt/flyway/11.8.2/sql"
+  FLYWAY_HOME: "/opt/flyway"
+  FLYWAY_LOCATIONS: "filesystem:/opt/flyway/sql"
   PATH: /usr/sbin:/sbin:/usr/bin:/bin:/usr/local/bin
   SSL_CERT_FILE: /etc/ssl/certs/ca-certificates.crt
 
-work-dir: /opt/flyway/11.8.2
+work-dir: /opt/flyway
 
-# Don't set entrypoint - let Helm override command
+entrypoint:
+  command: /usr/local/bin/flyway
+
 cmd: --help
 
 accounts:

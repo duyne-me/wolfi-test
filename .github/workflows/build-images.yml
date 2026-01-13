@@ -93,7 +93,7 @@ jobs:
         id: build-renovate
         uses: distroless/actions/apko-publish@main
         with:
-          config: images/image-renovate.yaml
+          config: images/renovate.yaml
           tag: ghcr.io/${{ github.repository_owner }}/renovate:latest
 
   build-apko:
@@ -110,7 +110,7 @@ jobs:
         id: build-apko
         uses: distroless/actions/apko-publish@main
         with:
-          config: images/image-apko.yaml
+          config: images/apko.yaml
           tag: ghcr.io/${{ github.repository_owner }}/apko:latest
 
   build-docker-dind:
@@ -127,7 +127,7 @@ jobs:
         id: build-docker-dind
         uses: distroless/actions/apko-publish@main
         with:
-          config: images/image-docker-dind.yaml
+          config: images/docker-dind.yaml
           tag: ghcr.io/${{ github.repository_owner }}/docker-dind:latest
 
   build-aws-cli:
@@ -144,7 +144,7 @@ jobs:
         id: build-aws-cli
         uses: distroless/actions/apko-publish@main
         with:
-          config: images/image-aws-cli.yaml
+          config: images/aws-cli.yaml
           tag: ghcr.io/${{ github.repository_owner }}/aws-cli:latest
 
   build-kubectl:
@@ -161,7 +161,7 @@ jobs:
         id: build-kubectl
         uses: distroless/actions/apko-publish@main
         with:
-          config: images/image-kubectl.yaml
+          config: images/kubectl.yaml
           tag: ghcr.io/${{ github.repository_owner }}/kubectl:latest
 
   build-k8s-tools:
@@ -185,7 +185,7 @@ jobs:
         id: build-k8s-tools
         uses: distroless/actions/apko-publish@main
         with:
-          config: images/image-k8s-tools.yaml
+          config: images/k8s-tools.yaml
           tag: ghcr.io/${{ github.repository_owner }}/k8s-tools:latest
 
   build-flyway:
@@ -209,5 +209,5 @@ jobs:
         id: build-flyway
         uses: distroless/actions/apko-publish@main
         with:
-          config: images/image-flyway.yaml
+          config: images/flyway.yaml
           tag: ghcr.io/${{ github.repository_owner }}/flyway:latest
