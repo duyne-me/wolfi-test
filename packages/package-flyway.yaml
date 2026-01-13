@@ -44,9 +44,9 @@ pipeline:
       # Create generic symlink for easier version management
       ln -s "${FLYWAY_VERSIONED_DIR}" "${{targets.destdir}}/opt/flyway"
       
-      # Create symlink for easy access
+      # Create symlink for easy access (point directly to versioned executable)
       mkdir -p "${{targets.destdir}}/usr/local/bin"
-      ln -s "/opt/flyway/flyway" \
+      ln -s "${FLYWAY_VERSIONED_DIR}/flyway" \
         "${{targets.destdir}}/usr/local/bin/flyway"
 
 test:
