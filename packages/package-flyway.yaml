@@ -1,0 +1,62 @@
+---
+package:
+  name: flyway
+  version: 11.8.2
+  epoch: 0
+  description: Flyway database migration tool
+  copyright:
+    - license: Apache-2.0
+
+environment:
+  contents:
+    repositories:
+      - https://packages.wolfi.dev/os
+    keyring:
+      - https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+    packages:
+      - busybox
+      - ca-certificates-bundle
+      - wget
+      - tar
+      - openjdk-17-jre
+
+pipeline:
+  - name: Download and extract Flyway
+    runs: |
+      FLYWAY_VERSION="${{package.version}}"
+      FLYWAY_HOME="/opt/flyway/${FLYWAY_VERSION}"
+      
+      # Download Flyway from Maven Central
+      wget --no-check-certificate \
+        "https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/${FLYWAY_VERSION}/flyway-commandline-${FLYWAY_VERSION}.tar.gz"
+      
+      # Create installation directory
+      mkdir -p "${{targets.destdir}}${FLYWAY_HOME}"
+      
+      # Extract Flyway
+      tar -xzf "flyway-commandline-${FLYWAY_VERSION}.tar.gz" \
+        -C "${{targets.destdir}}${FLYWAY_HOME}" \
+        --strip-components=1
+      
+      # Make flyway executable
+      chmod +x "${{targets.destdir}}${FLYWAY_HOME}/flyway"
+      
+      # Create symlink for easy access
+      mkdir -p "${{targets.destdir}}/usr/local/bin"
+      ln -s "${FLYWAY_HOME}/flyway" \
+        "${{targets.destdir}}/usr/local/bin/flyway"
+      
+      # Clean up downloaded archive
+      rm "flyway-commandline-${FLYWAY_VERSION}.tar.gz"
+
+test:
+  pipeline:
+    - runs: |
+        flyway --version
+
+update:
+  enabled: true
+  github:
+    identifier: flyway/flyway
+    strip-prefix: flyway-
+    tag-filter-prefix: flyway-

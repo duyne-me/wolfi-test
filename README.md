@@ -2,8 +2,8 @@
 
 > Minimal, secure container images built with WolfiOS, Apko, and Melange
 
-[![Build Images](https://github.com/duyne-me/wolfi-test/actions/workflows/build-images.yml/badge.svg)](https://github.com/duyne-me/wolfi-test/actions/workflows/build-images.yml)
-[![Build Package](https://github.com/duyne-me/wolfi-test/actions/workflows/build_package.yml/badge.svg)](https://github.com/duyne-me/wolfi-test/actions/workflows/build_package.yml)
+[![Build Images](https://github.com/duyhenryer/wolfi-test/actions/workflows/build-images.yml/badge.svg)](https://github.com/duyhenryer/wolfi-test/actions/workflows/build-images.yml)
+[![Build Package](https://github.com/duyhenryer/wolfi-test/actions/workflows/build_package.yml/badge.svg)](https://github.com/duyhenryer/wolfi-test/actions/workflows/build_package.yml)
 
 ## Overview
 
@@ -30,9 +30,12 @@ wolfi-test/
 │   ├── image-docker-dind.yaml
 │   ├── image-aws-cli.yaml
 │   ├── image-kubectl.yaml
-│   └── image-k8s-tools.yaml
+│   ├── image-k8s-tools.yaml
+│   └── image-flyway.yaml
 ├── packages/              # APK package definitions
 │   ├── package-apkrane.yaml
+│   ├── package-kubeconform.yaml
+│   ├── package-flyway.yaml
 │   └── melange-image.yaml
 ├── docs.md               # Apko & Melange concepts
 ├── melange.rsa.pub       # Public signing key
@@ -43,12 +46,13 @@ wolfi-test/
 
 | Image | Purpose | Base Packages | Registry |
 |-------|---------|---------------|----------|
-| **Renovate** | Renovate bot with Node.js, Git, Flux CLI | bash, flux, git, renovate | `ghcr.io/duyne-me/renovate:latest` |
-| **Apko** | Apko tool with Bash utilities | apko, bash, coreutils, grep | `ghcr.io/duyne-me/apko:latest` |
-| **Docker-in-Docker** | Docker-in-Docker with Kubernetes tools | docker, kubectl, kind | `ghcr.io/duyne-me/docker-dind:latest` |
-| **AWS CLI** | AWS CLI with common utilities | aws-cli, bash, vim | `ghcr.io/duyne-me/aws-cli:latest` |
-| **kubectl** | Kubernetes CLI tool | kubectl, bash | `ghcr.io/duyne-me/kubectl:latest` |
-| **K8s Tools** | Kubernetes utilities (yq, kustomize, kubeconform) | yq, kustomize, kubeconform, bash | `ghcr.io/duyne-me/k8s-tools:latest` |
+| **Renovate** | Renovate bot with Node.js, Git, Flux CLI | bash, flux, git, renovate | `ghcr.io/duyhenryer/renovate:latest` |
+| **Apko** | Apko tool with Bash utilities | apko, bash, coreutils, grep | `ghcr.io/duyhenryer/apko:latest` |
+| **Docker-in-Docker** | Docker-in-Docker with Kubernetes tools | docker, kubectl, kind | `ghcr.io/duyhenryer/docker-dind:latest` |
+| **AWS CLI** | AWS CLI with common utilities | aws-cli, bash, vim | `ghcr.io/duyhenryer/aws-cli:latest` |
+| **kubectl** | Kubernetes CLI tool | kubectl, bash | `ghcr.io/duyhenryer/kubectl:latest` |
+| **K8s Tools** | Kubernetes utilities (yq, kustomize, kubeconform) | yq, kustomize, kubeconform, bash | `ghcr.io/duyhenryer/k8s-tools:latest` |
+| **Flyway** | Database migration tool with OpenJDK 17 | bash, openjdk-17-jre, flyway | `ghcr.io/duyhenryer/flyway:latest` |
 
 ## Testing Images
 
@@ -66,19 +70,19 @@ sudo apt install -y podman
 ```bash
 # Test with default entrypoint
 podman run --rm --pull=always \
-    ghcr.io/duyne-me/renovate:latest --version
+    ghcr.io/duyhenryer/renovate:latest --version
 
 # Test with Flux CLI
 podman run --rm --pull=always \
     --entrypoint=/usr/local/bin/flux \
-    ghcr.io/duyne-me/renovate:latest version
+    ghcr.io/duyhenryer/renovate:latest version
 ```
 
 ### Test Apko
 
 ```bash
 podman run --rm --pull=always \
-    ghcr.io/duyne-me/apko:latest version
+    ghcr.io/duyhenryer/apko:latest version
 ```
 
 ### Test Docker-in-Docker
@@ -86,21 +90,21 @@ podman run --rm --pull=always \
 ```bash
 podman run --rm --pull=always \
     --privileged \
-    ghcr.io/duyne-me/docker-dind:latest
+    ghcr.io/duyhenryer/docker-dind:latest
 ```
 
 ### Test AWS CLI
 
 ```bash
 podman run --rm --pull=always \
-    ghcr.io/duyne-me/aws-cli:latest --version
+    ghcr.io/duyhenryer/aws-cli:latest --version
 ```
 
 ### Test kubectl
 
 ```bash
 podman run --rm --pull=always \
-    ghcr.io/duyne-me/kubectl:latest version
+    ghcr.io/duyhenryer/kubectl:latest version
 ```
 
 ### Test K8s Tools
@@ -108,17 +112,34 @@ podman run --rm --pull=always \
 ```bash
 # Test yq
 podman run --rm --pull=always \
-    ghcr.io/duyne-me/k8s-tools:latest --version
+    ghcr.io/duyhenryer/k8s-tools:latest --version
 
 # Test kustomize
 podman run --rm --pull=always \
     --entrypoint=/usr/bin/kustomize \
-    ghcr.io/duyne-me/k8s-tools:latest version
+    ghcr.io/duyhenryer/k8s-tools:latest version
 
 # Test kubeconform
 podman run --rm --pull=always \
     --entrypoint=/usr/bin/kubeconform \
-    ghcr.io/duyne-me/k8s-tools:latest --version
+    ghcr.io/duyhenryer/k8s-tools:latest --version
+```
+
+### Test Flyway
+
+```bash
+# Test Flyway version
+podman run --rm --pull=always \
+    ghcr.io/duyhenryer/flyway:latest --version
+
+# Test with database connection (example with PostgreSQL)
+podman run --rm --pull=always \
+    -v $(pwd)/sql:/opt/flyway/11.8.2/sql \
+    ghcr.io/duyhenryer/flyway:latest \
+    -url=jdbc:postgresql://host.docker.internal:5432/mydb \
+    -user=postgres \
+    -password=secret \
+    info
 ```
 
 ## Development
