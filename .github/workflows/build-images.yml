@@ -58,6 +58,13 @@ jobs:
           archs: x86_64,arm64
           sign-with-key: true
 
+      - name: Build flyway package with Melange
+        uses: chainguard-dev/actions/melange-build-pkg@main
+        with:
+          config: packages/package-flyway.yaml
+          archs: x86_64,arm64
+          sign-with-key: true
+
       - name: Upload packages
         uses: actions/upload-artifact@v6
         with:
@@ -86,8 +93,8 @@ jobs:
         id: build-renovate
         uses: distroless/actions/apko-publish@main
         with:
-          config: images/image-renovate.yaml
-          tag: ghcr.io/duynhne/renovate:latest
+          config: images/renovate.yaml
+          tag: ghcr.io/${{ github.repository_owner }}/renovate:latest
 
   build-apko:
     runs-on: ubuntu-latest
@@ -103,8 +110,8 @@ jobs:
         id: build-apko
         uses: distroless/actions/apko-publish@main
         with:
-          config: images/image-apko.yaml
-          tag: ghcr.io/duynhne/apko:latest
+          config: images/apko.yaml
+          tag: ghcr.io/${{ github.repository_owner }}/apko:latest
 
   build-docker-dind:
     runs-on: ubuntu-latest
@@ -120,8 +127,8 @@ jobs:
         id: build-docker-dind
         uses: distroless/actions/apko-publish@main
         with:
-          config: images/image-docker-dind.yaml
-          tag: ghcr.io/duynhne/docker-dind:latest
+          config: images/docker-dind.yaml
+          tag: ghcr.io/${{ github.repository_owner }}/docker-dind:latest
 
   build-aws-cli:
     runs-on: ubuntu-latest
@@ -137,8 +144,8 @@ jobs:
         id: build-aws-cli
         uses: distroless/actions/apko-publish@main
         with:
-          config: images/image-aws-cli.yaml
-          tag: ghcr.io/duynhne/aws-cli:latest
+          config: images/aws-cli.yaml
+          tag: ghcr.io/${{ github.repository_owner }}/aws-cli:latest
 
   build-kubectl:
     runs-on: ubuntu-latest
@@ -154,8 +161,8 @@ jobs:
         id: build-kubectl
         uses: distroless/actions/apko-publish@main
         with:
-          config: images/image-kubectl.yaml
-          tag: ghcr.io/duynhne/kubectl:latest
+          config: images/kubectl.yaml
+          tag: ghcr.io/${{ github.repository_owner }}/kubectl:latest
 
   build-k8s-tools:
     runs-on: ubuntu-latest
@@ -178,7 +185,29 @@ jobs:
         id: build-k8s-tools
         uses: distroless/actions/apko-publish@main
         with:
-          config: images/image-k8s-tools.yaml
-          tag: ghcr.io/duynhne/k8s-tools:latest
+          config: images/k8s-tools.yaml
+          tag: ghcr.io/${{ github.repository_owner }}/k8s-tools:latest
 
+  build-flyway:
+    runs-on: ubuntu-latest
+    needs: build-packages
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
 
+      - name: Download packages
+        uses: actions/download-artifact@v7
+        with:
+          name: packages
+          path: packages/
+
+      - name: Build flyway image
+        id: build-flyway
+        uses: distroless/actions/apko-publish@main
+        with:
+          config: images/flyway.yaml
+          tag: ghcr.io/${{ github.repository_owner }}/flyway:latest
