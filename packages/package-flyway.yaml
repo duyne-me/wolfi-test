@@ -16,7 +16,6 @@ environment:
     packages:
       - busybox
       - ca-certificates-bundle
-      - tar
       - openjdk-17-jre
 
 pipeline:
