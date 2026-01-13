@@ -22,7 +22,7 @@ pipeline:
   - uses: fetch
     with:
       uri: https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/${{package.version}}/flyway-commandline-${{package.version}}.tar.gz
-      expected-sha256: e949d012420371c6999a38f32c6680455581c15f9ad1b4f4943f9a9415712e03
+      expected-sha256: b01677117b6be97e669314cc502da85bdce20b426bafc291738368ab980c8ca5
 
   - name: Install Flyway
     runs: |
