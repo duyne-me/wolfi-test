@@ -1,3 +1,7 @@
+## Wolfi Overview
+`Wolfi` is a community Linux undistro designed for the container and cloud-native era. Chainguard started the Wolfi project to build Chainguard Containers, our collection of curated distroless images that meet the requirements of a secure software supply chain. This required a Linux distribution with components at the appropriate granularity and with support for `glibc` 
+- https://www.gnu.org/software/libc/.
+
 ## What is Melange? (APK Packaging)
 
 - `Melange` is a tool that helps you compile and package your application into an APK (Alpine Package Keeper) — the package format used by Alpine Linux.
@@ -25,4 +29,5 @@ Apko builds a container image containing a minimal OS `(Alpine/Wolfi)` plus your
 | Task                       | Tool      | Result                                      |
 |----------------------------|-----------|---------------------------------------------|
 | Compile and package app    | Melange   | Creates an `.apk` file containing your app  |
+
 | Create OCI container image | Apko      | Creates a container image from the `.apk`   |
