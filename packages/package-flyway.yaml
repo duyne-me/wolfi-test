@@ -28,25 +28,23 @@ pipeline:
     runs: |
       set -e
       FLYWAY_VERSION="${{package.version}}"
-      FLYWAY_VERSIONED_DIR="/opt/flyway-${FLYWAY_VERSION}"
       
-      # Create versioned installation directory
-      mkdir -p "${{targets.destdir}}${FLYWAY_VERSIONED_DIR}"
+      # Extract Flyway (archive contains flyway-X.Y.Z/ directory)
+      tar -xzf "flyway-commandline-${FLYWAY_VERSION}.tar.gz"
       
-      # Extract Flyway
-      tar -xzf "flyway-commandline-${FLYWAY_VERSION}.tar.gz" \
-        -C "${{targets.destdir}}${FLYWAY_VERSIONED_DIR}" \
-        --strip-components=1
+      # Move extracted directory to versioned location
+      mkdir -p "${{targets.destdir}}/opt"
+      mv "flyway-${FLYWAY_VERSION}" "${{targets.destdir}}/opt/flyway-${FLYWAY_VERSION}"
       
       # Make flyway executable
-      chmod +x "${{targets.destdir}}${FLYWAY_VERSIONED_DIR}/flyway"
+      chmod +x "${{targets.destdir}}/opt/flyway-${FLYWAY_VERSION}/flyway"
       
       # Create generic symlink for easier version management
-      ln -s "${FLYWAY_VERSIONED_DIR}" "${{targets.destdir}}/opt/flyway"
+      ln -s "/opt/flyway-${FLYWAY_VERSION}" "${{targets.destdir}}/opt/flyway"
       
-      # Create symlink for easy access (point directly to versioned executable)
+      # Create symlink in /usr/local/bin for global access
       mkdir -p "${{targets.destdir}}/usr/local/bin"
-      ln -s "${FLYWAY_VERSIONED_DIR}/flyway" \
+      ln -s "/opt/flyway-${FLYWAY_VERSION}/flyway" \
         "${{targets.destdir}}/usr/local/bin/flyway"
 
 test:
